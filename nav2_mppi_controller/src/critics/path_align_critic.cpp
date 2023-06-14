@@ -71,9 +71,11 @@ void PathAlignCritic::score(CriticData & data)
 
   const auto & T_x = data.trajectories.x;
   const auto & T_y = data.trajectories.y;
+  const auto & T_yaw = data.trajectories.yaws;
 
   const auto P_x = xt::view(data.path.x, xt::range(_, -1));  // path points
   const auto P_y = xt::view(data.path.y, xt::range(_, -1));  // path points
+  const auto P_yaw = xt::view(data.path.yaws, xt::range(_, -1));  // path points
 
   const size_t batch_size = T_x.shape(0);
   const size_t time_steps = T_x.shape(1);
@@ -96,7 +98,8 @@ void PathAlignCritic::score(CriticData & data)
         xt::xtensor_fixed<float, xt::xshape<2>> P;
         float dx = P_x(s) - T_x(t, p);
         float dy = P_y(s) - T_y(t, p);
-        float dist_sq = dx * dx + dy * dy;
+        float dyaw = P_yaw(s) - T_yaw(t, p);
+        float dist_sq = dx * dx + dy * dy + dyaw * dyaw;
         if (dist_sq < min_dist_sq) {
           min_dist_sq = dist_sq;
           min_s = s;
