@@ -98,7 +98,7 @@ void PathAlignCritic::score(CriticData & data)
         xt::xtensor_fixed<float, xt::xshape<2>> P;
         float dx = P_x(s) - T_x(t, p);
         float dy = P_y(s) - T_y(t, p);
-        float dyaw = utils::shortest_angular_distance(P_yaw(s), T_yaw(t, p));
+        float dyaw = angles::shortest_angular_distance(P_yaw(s), T_yaw(t, p));
         float dist_sq = dx * dx + dy * dy + dyaw * dyaw;
         if (dist_sq < min_dist_sq) {
           min_dist_sq = dist_sq;
