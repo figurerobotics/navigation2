@@ -301,11 +301,11 @@ inline size_t findPathFurthestReachedPoint(const CriticData & data)
 {
   const auto traj_x = xt::view(data.trajectories.x, xt::all(), -1, xt::newaxis());
   const auto traj_y = xt::view(data.trajectories.y, xt::all(), -1, xt::newaxis());
-  const auto traj_yaw = xt::view(data.trajectories.yaw, xt::all(), -1, xt::newaxis());
+  const auto traj_yaw = xt::view(data.trajectories.yaws, xt::all(), -1, xt::newaxis());
 
   const auto dx = data.path.x - traj_x;
   const auto dy = data.path.y - traj_y;
-  const auto dyaw = utils::shortest_angular_distance(data.path.yaw, traj_yaw);
+  const auto dyaw = utils::shortest_angular_distance(data.path.yaws, traj_yaw);
 
   const auto dists = dx * dx + dy * dy + dyaw * dyaw;
 
